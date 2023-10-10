@@ -29,7 +29,10 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="mb-4 grid grid-cols-2 gap-4">
+                        <div class="text-xl text-gray-600">
+                            {{ __('Players') }}<span class="text-red-500">*</span>
+                        </div>
+                        <div class="my-4 grid grid-cols-2 gap-4">
                             @foreach($users as $id => $name)
                                 <div class="w-1/2">
                                     <label class="text-xl text-gray-600">

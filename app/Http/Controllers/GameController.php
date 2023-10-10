@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\GameRequest;
+use App\Http\Requests\StoreGameRequest;
 use App\Models\Game;
 use App\Models\User;
 
@@ -31,7 +31,7 @@ class GameController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(GameRequest $request)
+    public function store(StoreGameRequest $request)
     {
         $game = Game::create(['name' => $request->input('name')]);
         $game->users()->sync($request->input('players'));
@@ -53,7 +53,7 @@ class GameController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(GameRequest $request, Game $game)
+    public function update(StoreGameRequest $request, Game $game)
     {
         $game->update(['name' => $request->input('name')]);
         $game->users()->sync($request->input('players'));
