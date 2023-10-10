@@ -22,8 +22,8 @@ class GameRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => [],
-            'players.*' => [],
+            'name' => ['required', 'string', 'max:200'],
+            'players.*' => ['required', 'integer', 'exists:users,id'],
         ];
     }
 }
