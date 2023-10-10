@@ -12,15 +12,15 @@
                     <a href="{{ route('games.create') }}"
                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     >
-                       Add Game
+                       {{ __('Add Game') }}
                     </a>
 
                     <table class="table-auto w-full">
                         <thead>
                         <tr>
-                            <th class="px-4 py-2">Name</th>
-                            <th class="px-4 py-2">Players</th>
-                            <th class="px-4 py-2">Actions</th>
+                            <th class="px-4 py-2">{{ __('Name') }}</th>
+                            <th class="px-4 py-2">{{ __('Players') }}</th>
+                            <th class="px-4 py-2">{{ __('Actions') }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -34,7 +34,7 @@
                                 </td>
                                 <td class="border px-4 py-2">
                                     <a href="{{ route('games.edit', $game->id) }}"
-                                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</a>
+                                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{{ __('Edit') }}</a>
                                     <form action="{{ route('games.destroy', $game->id) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
@@ -42,7 +42,7 @@
                                             type="submit"
                                             class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                                         >
-                                            Delete
+                                            {{ __('Delete') }}
                                         </button>
                                     </form>
                                 </td>
