@@ -21,9 +21,11 @@ class StoreGameWinnerRequest extends FormRequest
      */
     public function rules(): array
     {
+        $gamePlayersCount = $this->route('game')->users->count();
+
         return [
-            'players' => [],
-            'players.*' => [],
+            'players' => ['required', 'array', 'min:'.$gamePlayersCount],
+            'players.*' => ['required', 'integer', 'distinct', 'min:1', 'max:'.$gamePlayersCount],
         ];
     }
 }
