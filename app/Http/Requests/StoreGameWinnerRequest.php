@@ -28,4 +28,12 @@ class StoreGameWinnerRequest extends FormRequest
             'players.*' => ['required', 'integer', 'distinct', 'min:1', 'max:'.$gamePlayersCount],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'players.*.required' => __('Please select a place for each winner.'),
+            'players.*.distinct' => __('Please select a different place for each winner.'),
+        ];
+    }
 }
