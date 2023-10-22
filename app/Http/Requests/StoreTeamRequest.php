@@ -22,7 +22,10 @@ class StoreTeamRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => '',
+            'name' => ['required', 'string', 'max:200'],
+            'players' => ['required', 'array', 'min:3', 'max:10'],
+            'players.*.id' => ['required', 'exists:users,id', 'integer', 'distinct'],
+            'players.*.position' => ['required', 'string', 'max:200', 'distinct'],
         ];
     }
 }
