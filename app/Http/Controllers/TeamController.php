@@ -37,12 +37,12 @@ class TeamController extends Controller
     {
         DB::transaction(function () use ($request) {
             $team = Team::create($request->validated());
-            $team->users()->attach(
-                collect($request->input('players'))
-                    ->mapWithKeys(function ($item) {
-                        return [$item['id'] => ['position' => $item['position']]];
-                    })
-            );
+
+            $playersArray = [];
+            foreach ($request->input('players') as $player) {
+                $playersArray[$player['id']] = ['position' => $player['position']];
+            }
+            $team->users()->attach($playersArray);
         });
 
         return redirect()->route('teams.index');
@@ -74,12 +74,12 @@ class TeamController extends Controller
     {
         DB::transaction(function () use ($team, $request) {
             $team->update($request->validated());
-            $team->users()->sync(
-                collect($request->input('players'))
-                    ->mapWithKeys(function ($item) {
-                        return [$item['id'] => ['position' => $item['position']]];
-                    })
-            );
+
+            $playersArray = [];
+            foreach ($request->input('players') as $player) {
+                $playersArray[$player['id']] = ['position' => $player['position']];
+            }
+            $team->users()->sync($playersArray);
         });
 
         return redirect()->route('teams.index');
