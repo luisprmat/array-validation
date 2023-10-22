@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTeamRequest;
 use App\Models\Team;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class TeamController extends Controller
 {
@@ -34,14 +35,15 @@ class TeamController extends Controller
      */
     public function store(StoreTeamRequest $request)
     {
-        $team = Team::create(['name' => $request->input('name')]);
-
-        $team->users()->sync(
-            collect($request->input('players'))
-                ->mapWithKeys(function ($item) {
-                    return [$item['id'] => ['position' => $item['position']]];
-                })
-        );
+        DB::transaction(function () use ($request) {
+            $team = Team::create($request->validated());
+            $team->users()->attach(
+                collect($request->input('players'))
+                    ->mapWithKeys(function ($item) {
+                        return [$item['id'] => ['position' => $item['position']]];
+                    })
+            );
+        });
 
         return redirect()->route('teams.index');
     }
@@ -60,7 +62,6 @@ class TeamController extends Controller
     public function edit(Team $team)
     {
         $users = User::pluck('name', 'id');
-        $team->load(['users']);
         $positions = $this->getPositions();
 
         return view('teams.edit', compact('team', 'users', 'positions'));
@@ -71,14 +72,15 @@ class TeamController extends Controller
      */
     public function update(StoreTeamRequest $request, Team $team)
     {
-        $team->update(['name' => $request->input('name')]);
-
-        $team->users()->sync(
-            collect($request->input('players'))
-                ->mapWithKeys(function ($item) {
-                    return [$item['id'] => ['position' => $item['position']]];
-                })
-        );
+        DB::transaction(function () use ($team, $request) {
+            $team->update($request->validated());
+            $team->users()->sync(
+                collect($request->input('players'))
+                    ->mapWithKeys(function ($item) {
+                        return [$item['id'] => ['position' => $item['position']]];
+                    })
+            );
+        });
 
         return redirect()->route('teams.index');
     }
