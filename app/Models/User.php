@@ -44,6 +44,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class)->withPivot(['position']);
+    }
+
     public function games(): BelongsToMany
     {
         return $this->belongsToMany(Game::class)->withPivot(['place']);
