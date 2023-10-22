@@ -28,4 +28,15 @@ class StoreTeamRequest extends FormRequest
             'players.*.position' => ['required', 'string', 'max:200', 'distinct'],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'players.*.id.required' => __('Player #:index must be selected.'),
+            'players.*.id.exists' => __('The selected player is invalid.'),
+            'players.*.id.distinct' => __('Player cannot be selected twice.'),
+            'players.*.position.required' => __('Player position is required'),
+            'players.*.position.distinct' => __('Player positions must be unique.'),
+        ];
+    }
 }
