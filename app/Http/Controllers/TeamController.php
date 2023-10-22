@@ -24,18 +24,7 @@ class TeamController extends Controller
     public function create()
     {
         $users = User::pluck('name', 'id');
-        $positions = [
-            'Goalkeeper' => 'Goalkeeper',
-            'Defender' => 'Defender',
-            'Midfielder' => 'Midfielder',
-            'Forward' => 'Forward',
-            'Coach' => 'Coach',
-            'Assistant Coach' => 'Assistant Coach',
-            'Physiotherapist' => 'Physiotherapist',
-            'Doctor' => 'Doctor',
-            'Manager' => 'Manager',
-            'President' => 'President',
-        ];
+        $positions = $this->getPositions();
 
         return view('teams.create', compact('users', 'positions'));
     }
@@ -72,18 +61,7 @@ class TeamController extends Controller
     {
         $users = User::pluck('name', 'id');
         $team->load(['users']);
-        $positions = [
-            'Goalkeeper' => 'Goalkeeper',
-            'Defender' => 'Defender',
-            'Midfielder' => 'Midfielder',
-            'Forward' => 'Forward',
-            'Coach' => 'Coach',
-            'Assistant Coach' => 'Assistant Coach',
-            'Physiotherapist' => 'Physiotherapist',
-            'Doctor' => 'Doctor',
-            'Manager' => 'Manager',
-            'President' => 'President',
-        ];
+        $positions = $this->getPositions();
 
         return view('teams.edit', compact('team', 'users', 'positions'));
     }
@@ -114,5 +92,21 @@ class TeamController extends Controller
         $team->delete();
 
         return redirect()->route('teams.index');
+    }
+
+    private function getPositions(): array
+    {
+        return [
+            'goalkeeper' => __('positions.goalkeeper'),
+            'defender' => __('positions.defender'),
+            'midfielder' => __('positions.midfielder'),
+            'forward' => __('positions.forward'),
+            'coach' => __('positions.coach'),
+            'assistant_coach' => __('positions.assistant_coach'),
+            'physiotherapist' => __('positions.physiotherapist'),
+            'doctor' => __('positions.doctor'),
+            'manager' => __('positions.manager'),
+            'president' => __('positions.president'),
+        ];
     }
 }

@@ -28,7 +28,7 @@
                                 <td class="border px-4 py-2">{{ $team->name }}</td>
                                 <td class="border px-4 py-2">
                                     @foreach ($team->users as $player)
-                                        {{ $player->name }} - <span class="italic">{{ $player->pivot->position }}</span>
+                                        {{ $player->name }} - <span class="italic">{{ __('positions.'.$player->pivot->position) }}</span>
                                         <br>
                                     @endforeach
                                 </td>
