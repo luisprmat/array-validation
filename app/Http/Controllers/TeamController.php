@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTeamRequest;
 use App\Models\Team;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class TeamController extends Controller
@@ -14,7 +13,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $teams = Team::all();
+        $teams = Team::with('users')->get();
 
         return view('teams.index', compact('teams'));
     }
@@ -24,10 +23,7 @@ class TeamController extends Controller
      */
     public function create()
     {
-        $users = User::pluck('name', 'id');
-        $positions = $this->getPositions();
-
-        return view('teams.create', compact('users', 'positions'));
+        return view('teams.create');
     }
 
     /**
@@ -61,10 +57,7 @@ class TeamController extends Controller
      */
     public function edit(Team $team)
     {
-        $users = User::pluck('name', 'id');
-        $positions = $this->getPositions();
-
-        return view('teams.edit', compact('team', 'users', 'positions'));
+        return view('teams.edit', compact('team'));
     }
 
     /**
@@ -94,21 +87,5 @@ class TeamController extends Controller
         $team->delete();
 
         return redirect()->route('teams.index');
-    }
-
-    private function getPositions(): array
-    {
-        return [
-            'goalkeeper' => __('positions.goalkeeper'),
-            'defender' => __('positions.defender'),
-            'midfielder' => __('positions.midfielder'),
-            'forward' => __('positions.forward'),
-            'coach' => __('positions.coach'),
-            'assistant_coach' => __('positions.assistant_coach'),
-            'physiotherapist' => __('positions.physiotherapist'),
-            'doctor' => __('positions.doctor'),
-            'manager' => __('positions.manager'),
-            'president' => __('positions.president'),
-        ];
     }
 }
