@@ -24,7 +24,21 @@ class UpdateGameRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:200', Rule::unique('games')->ignore($this->game)],
+            'players' => ['required', 'array', 'min:3'],
             'players.*' => ['required', 'integer', 'exists:users,id'],
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'players.required' => __('The player list cannot be empty.'),
+            'players.min' => __('You must select at least :min :attribute.'),
         ];
     }
 }
