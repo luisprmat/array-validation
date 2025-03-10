@@ -225,6 +225,7 @@ return [
         'password_confirmation' => 'confirmación de la contraseña',
         'phone' => 'teléfono',
         'photo' => 'foto',
+        'players' => 'jugadores',
         'portfolio' => 'portafolio',
         'postal_code' => 'código postal',
         'preview' => 'vista preliminar',
