@@ -34,7 +34,9 @@
                                             </td>
                                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
                                                 @foreach ($game->users as $player)
-                                                    {{ $player->name }}<br>
+                                                    <ul class="list-disc">
+                                                        <li>{{ $player->name }}</li>
+                                                    </ul>
                                                 @endforeach
                                             </td>
                                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
