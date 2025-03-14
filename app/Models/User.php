@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Game::class)->withPivot(['place']);
     }
+
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class)->withPivot(['position']);
+    }
 }
