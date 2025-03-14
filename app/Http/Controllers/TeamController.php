@@ -36,7 +36,6 @@ class TeamController extends Controller
      */
     public function store(StoreTeamRequest $request)
     {
-        dd($request->all());
         $team = Team::create(['name' => $request->input('name')]);
 
         $team->users()->sync(
@@ -66,7 +65,6 @@ class TeamController extends Controller
      */
     public function update(UpdateTeamRequest $request, Team $team)
     {
-        dd($request->all());
         $team->update(['name' => $request->input('name')]);
 
         $team->users()->sync(

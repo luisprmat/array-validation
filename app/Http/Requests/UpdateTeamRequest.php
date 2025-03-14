@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateTeamRequest extends FormRequest
 {
@@ -22,7 +23,26 @@ class UpdateTeamRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => '',
+            'name' => ['required', 'string', 'max:200', Rule::unique('teams')->ignore($this->team)],
+            'players' => ['required', 'array', 'min:3', 'max:10'],
+            'players.*.id' => ['required', 'exists:users,id', 'integer', 'distinct'],
+            'players.*.position' => ['required', 'string', 'max:200', 'distinct'],
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'players.*.id.required' => __('This player must be selected.'),
+            'players.*.id.exists' => __('The selected player is invalid.'),
+            'players.*.id.distinct' => __('Player cannot be selected twice.'),
+            'players.*.position.required' => __('Player position is required.'),
+            'players.*.position.distinct' => __('Player positions must be unique.'),
         ];
     }
 }
