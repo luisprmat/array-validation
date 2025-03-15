@@ -13,6 +13,8 @@ class Team extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->withPivot(['position']);
+        return $this->belongsToMany(User::class)
+            ->using(TeamUser::class)
+            ->withPivot(['team_position_id']);
     }
 }

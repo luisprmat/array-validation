@@ -33,8 +33,8 @@
                                     <x-input-label for="players[{{ $i }}][position]" :value="__('Position')" :required="true" />
                                     <x-select-input name="players[{{ $i }}][position]" id="players[{{ $i }}][position]" class="w-full md:w-3/4 mt-1">
                                         <option value="">{{ __('Select :name', ['name' => __('Position')]) }}</option>
-                                        @foreach($positions as $id => $name)
-                                            <option value="{{ $id }}" @selected(old('players.'.$i.'.position') == $id)>{{ $name }}</option>
+                                        @foreach($positions as $position)
+                                            <option value="{{ $position->id }}" @selected(old('players.'.$i.'.position') == $position->id)>{{ $position->name }}</option>
                                         @endforeach
                                     </x-select-input>
                                     <x-input-error class="mt-2" :messages="$errors->get('players.'.$i.'.position')" />

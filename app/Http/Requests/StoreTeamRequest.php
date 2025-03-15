@@ -26,7 +26,7 @@ class StoreTeamRequest extends FormRequest
             'name' => ['required', 'string', 'max:200', Rule::unique('teams')],
             'players' => ['required', 'array', 'min:3', 'max:10'],
             'players.*.id' => ['required', 'exists:users,id', 'integer', 'distinct'],
-            'players.*.position' => ['required', 'string', 'max:200', 'distinct'],
+            'players.*.position' => ['required', 'integer', 'max:200', 'distinct', Rule::exists('team_positions', 'id')],
         ];
     }
 

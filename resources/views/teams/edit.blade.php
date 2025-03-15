@@ -34,8 +34,8 @@
                                     <x-input-label for="players[{{ $player->id }}][position]" :value="__('Position')" :required="true" />
                                     <x-select-input name="players[{{ $player->id }}][position]" id="players[{{ $player->id }}][position]" class="w-full md:w-3/4 mt-1">
                                         <option value="">{{ __('Select :name', ['name' => __('Position')]) }}</option>
-                                        @foreach($positions as $id => $name)
-                                            <option value="{{ $id }}" @selected(old('players.'.$player->id.'.position', $player->pivot->position) == $id)>{{ $name }}</option>
+                                        @foreach($positions as $position)
+                                            <option value="{{ $position->id }}" @selected(old('players.'.$player->id.'.position', $player->pivot->team_position_id) == $position->id)>{{ $position->name }}</option>
                                         @endforeach
                                     </x-select-input>
                                     <x-input-error class="mt-2" :messages="$errors->get('players.'.$player->id.'.position')" />

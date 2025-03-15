@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTeamRequest;
 use App\Http\Requests\UpdateTeamRequest;
 use App\Models\Team;
+use App\Models\TeamPosition;
 use App\Models\User;
 use Illuminate\View\View;
 
@@ -26,7 +27,7 @@ class TeamController extends Controller
     public function create(): View
     {
         $users = User::pluck('name', 'id');
-        $positions = $this->getPositions();
+        $positions = TeamPosition::all();
 
         return view('teams.create', compact('users', 'positions'));
     }
@@ -41,7 +42,7 @@ class TeamController extends Controller
         $team->users()->sync(
             collect($request->input('players'))
                 ->mapWithKeys(function ($item) {
-                    return [$item['id'] => ['position' => $item['position']]];
+                    return [$item['id'] => ['team_position_id' => $item['position']]];
                 })
         );
 
@@ -55,7 +56,7 @@ class TeamController extends Controller
     {
         $users = User::pluck('name', 'id');
         $team->load(['users']);
-        $positions = $this->getPositions();
+        $positions = TeamPosition::all();
 
         return view('teams.edit', compact('team', 'users', 'positions'));
     }
@@ -70,7 +71,7 @@ class TeamController extends Controller
         $team->users()->sync(
             collect($request->input('players'))
                 ->mapWithKeys(function ($item) {
-                    return [$item['id'] => ['position' => $item['position']]];
+                    return [$item['id'] => ['team_position_id' => $item['position']]];
                 })
         );
 
@@ -86,21 +87,5 @@ class TeamController extends Controller
         $team->delete();
 
         return to_route('teams.index');
-    }
-
-    private function getPositions(): array
-    {
-        return [
-            'Goalkeeper' => 'Goalkeeper',
-            'Defender' => 'Defender',
-            'Midfielder' => 'Midfielder',
-            'Forward' => 'Forward',
-            'Coach' => 'Coach',
-            'Assistant Coach' => 'Assistant Coach',
-            'Physiotherapist' => 'Physiotherapist',
-            'Doctor' => 'Doctor',
-            'Manager' => 'Manager',
-            'President' => 'President',
-        ];
     }
 }

@@ -13,7 +13,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         if (app()->environment('local')) {
-            $this->call(LocalDataSeeder::class);
+            $this->call([
+                LocalDataSeeder::class,
+                TeamPositionSeeder::class,
+            ]);
         }
     }
 }
