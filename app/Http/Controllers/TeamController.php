@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateTeamRequest;
 use App\Models\Team;
 use App\Models\TeamPosition;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class TeamController extends Controller
@@ -37,14 +38,15 @@ class TeamController extends Controller
      */
     public function store(StoreTeamRequest $request)
     {
-        $team = Team::create(['name' => $request->input('name')]);
-
-        $team->users()->sync(
-            collect($request->input('players'))
-                ->mapWithKeys(function ($item) {
-                    return [$item['id'] => ['team_position_id' => $item['position']]];
-                })
-        );
+        DB::transaction(function () use ($request) {
+            $team = Team::create(['name' => $request->input('name')]);
+            $team->users()->sync(
+                collect($request->input('players'))
+                    ->mapWithKeys(function ($item) {
+                        return [$item['id'] => ['team_position_id' => $item['position']]];
+                    })
+            );
+        });
 
         return to_route('teams.index');
     }
@@ -66,14 +68,15 @@ class TeamController extends Controller
      */
     public function update(UpdateTeamRequest $request, Team $team)
     {
-        $team->update(['name' => $request->input('name')]);
-
-        $team->users()->sync(
-            collect($request->input('players'))
-                ->mapWithKeys(function ($item) {
-                    return [$item['id'] => ['team_position_id' => $item['position']]];
-                })
-        );
+        DB::transaction(function () use ($request, $team) {
+            $team->update(['name' => $request->input('name')]);
+            $team->users()->sync(
+                collect($request->input('players'))
+                    ->mapWithKeys(function ($item) {
+                        return [$item['id'] => ['team_position_id' => $item['position']]];
+                    })
+            );
+        });
 
         return to_route('teams.index');
     }
