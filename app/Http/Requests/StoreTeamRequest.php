@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\TeamUser;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -37,12 +38,6 @@ class StoreTeamRequest extends FormRequest
      */
     public function messages(): array
     {
-        return [
-            'players.*.id.required' => __('This player must be selected.'),
-            'players.*.id.exists' => __('The selected player is invalid.'),
-            'players.*.id.distinct' => __('Player cannot be selected twice.'),
-            'players.*.position.required' => __('Player position is required.'),
-            'players.*.position.distinct' => __('Player positions must be unique.'),
-        ];
+        return TeamUser::playersValidationMessages();
     }
 }
