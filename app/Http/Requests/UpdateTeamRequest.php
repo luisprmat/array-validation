@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\TeamPosition;
 use App\Models\TeamUser;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -23,9 +24,11 @@ class UpdateTeamRequest extends FormRequest
      */
     public function rules(): array
     {
+        $teamPositions = TeamPosition::count();
+
         return [
             'name' => ['required', 'string', 'max:200', Rule::unique('teams')->ignore($this->team)],
-            'players' => ['required', 'array', 'min:3', 'max:10'],
+            'players' => ['required', 'array', 'min:3', 'max:'.$teamPositions],
             'players.*.id' => ['required', 'exists:users,id', 'integer', 'distinct'],
             'players.*.position' => ['required', 'integer', 'max:200', 'distinct', Rule::exists('team_positions', 'id')],
         ];

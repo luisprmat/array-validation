@@ -32,7 +32,7 @@ class TeamPlayerSelection extends Component
     protected function rules(): array
     {
         return [
-            'players' => ['required', 'array', 'min:3', 'max:10'],
+            'players' => ['required', 'array', 'min:3', 'max:'.$this->positions->count()],
             'players.*.id' => ['required', 'exists:users,id', 'integer', 'distinct'],
             'players.*.position' => ['required', 'integer', 'max:200', 'distinct', Rule::exists('team_positions', 'id')],
         ];
