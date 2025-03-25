@@ -20,6 +20,7 @@ Route::resource('games', GameController::class)
     ->except(['show']);
 Route::get('games/{game}/winners', [GameWinnerController::class, 'edit'])->name('games.winners.edit');
 Route::post('games/{game}/winners', [GameWinnerController::class, 'update'])->name('games.winners.update');
+Route::view('positions', 'positions')->name('positions');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
