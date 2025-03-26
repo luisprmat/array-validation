@@ -22,6 +22,7 @@
                                 @if (in_array($position->id, $editingPositions))
                                     <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5" wire:key="cell-{{ $locale->code }}-{{ $position->id }}-input">
                                         <x-text-input wire:model="selectedPositions.{{ $position->id }}.{{ $locale->code }}" class="text-sm" />
+                                        <x-input-error :messages="$errors->get('selectedPositions.'.$position->id.'.'.$locale->code)" class="mt-1 text-xs" />
                                     </td>
                                 @else
                                     <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5" wire:key="cell-{{ $locale->code }}-{{ $position->id }}">
@@ -55,6 +56,7 @@
                             @foreach ($locales as $locale)
                                 <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5" wire:key="cell-{{ $locale->code }}-newInput">
                                     <x-text-input wire:model="newPosition.{{ $locale->code }}" class="text-sm" />
+                                    <x-input-error :messages="$errors->get('newPosition.'.$locale->code)" class="mt-1 text-xs" />
                                 </td>
                             @endforeach
                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5" wire:key="cell-newPosition-saving">

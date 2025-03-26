@@ -35,7 +35,7 @@
                                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
                                                 @foreach ($team->users as $player)
                                                     <ul class="list-disc">
-                                                        <li>{{ $player->name }} - <span class="italic">{{ $player->pivot->position->name }}</span></li>
+                                                        <li>{{ $player->name }} - <span class="italic">{{ $player->pivot->position ? $player->pivot->position->name : '('.__('Not assigned').')' }}</span></li>
                                                     </ul>
                                                 @endforeach
                                             </td>
